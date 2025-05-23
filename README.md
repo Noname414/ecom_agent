@@ -5,7 +5,7 @@
 ## 🌟 主要特點
 
 - 💬 自然語言對話：使用 Google Gemini 模型，提供流暢且自然的對話體驗
-- 🔍 即時商品搜尋：自動爬取多個電商平台的商品資訊
+- 🔍 即時商品搜尋：自動爬取多個電商平台的商品資訊（PChome、Yahoo 購物、露天拍賣）
 - 💰 智能比價功能：自動計算並比較不同平台的商品單價
 - 🤝 個性化推薦：根據用戶需求提供客製化商品推薦
 - 📝 對話歷史記錄：自動保存對話歷史，提供連貫的服務體驗
@@ -42,7 +42,7 @@ graph TD
 
 3. **爬蟲模組 (Web Scraper)**
 
-   - 支援多個電商平台
+   - 支援多個電商平台（PChome、Yahoo 購物、露天拍賣）
    - 非同步爬取商品資訊
    - 處理反爬蟲機制
 
@@ -109,7 +109,7 @@ class AgentState(TypedDict):
 1. 克隆專案：
 
 ```bash
-git clone [專案網址]
+git clone https://github.com/Noname414/ecom_agent.git
 cd eComAgent
 ```
 
@@ -122,7 +122,14 @@ pip install -r requirements.txt
 3. 設定環境變數：
 
 ```bash
+# Linux/macOS
 export GEMINI_API_KEY="您的 Google Gemini API 金鑰"
+
+# Windows (CMD)
+set GEMINI_API_KEY=您的Google Gemini API金鑰
+
+# Windows (PowerShell)
+$env:GEMINI_API_KEY="您的Google Gemini API金鑰"
 ```
 
 ## 💻 使用方法
@@ -130,13 +137,13 @@ export GEMINI_API_KEY="您的 Google Gemini API 金鑰"
 1. 啟動助手：
 
 ```bash
-python agents/mainAgent.py
+python main.py
 ```
 
 2. 開始對話：
+   - 在瀏覽器中訪問 http://127.0.0.1:5000 即可使用 Web 介面與助手對話
    - 輸入您的問題或需求
    - 系統會自動分析並提供相關回應
-   - 如需結束對話，輸入「退出」
 
 ## 🔥 功能示例
 
@@ -148,6 +155,12 @@ python agents/mainAgent.py
 
 系統會自動將對話歷史保存在 `chat_history.json` 檔案中，方便追蹤和分析使用者互動。
 
+## ❓ 疑難排解
+
+- **API 金鑰錯誤**：確保您已正確設定 GEMINI_API_KEY 環境變數
+- **爬蟲失敗**：可能是網站結構變更或反爬蟲機制更新，請檢查網路連線或更新爬蟲模組
+- **模型回應緩慢**：可能是網路延遲或 API 限制，請稍後再試
+
 ## 🤝 貢獻指南
 
 歡迎提交 Pull Request 或開立 Issue 來協助改進專案！
@@ -155,3 +168,8 @@ python agents/mainAgent.py
 ## 📄 授權條款
 
 本專案採用 MIT 授權條款 - 詳見 LICENSE 檔案
+
+## ℹ️ 版本資訊
+
+- 版本：1.0.0
+- 最後更新：2024 年 11 月
