@@ -163,8 +163,11 @@ def get_ecommerce_tool() -> EcommerceTool:
     """獲取電商搜尋工具實例"""
     return EcommerceTool()
 
+crawler_tool = get_ecommerce_tool()
 if __name__ == "__main__":
     # 測試工具
     tool = get_ecommerce_tool()
     result = tool.run("羽毛球拍")
-    print(result) 
+    with open("test_result.json", "w", encoding="utf-8") as f:
+        json.dump(result, f, ensure_ascii=False, indent=4)
+    # print(result) 

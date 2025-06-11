@@ -319,5 +319,7 @@ ecommerce_tool = Tool(
 if __name__ == "__main__":
     query = "洗衣機"
     result = asyncio.run(scrape_ecommerce(query))
+    with open("ecommerce_results.json", "w", encoding="utf-8") as f:
+        f.write(result)
     print("測試已完成。")
     print(result)

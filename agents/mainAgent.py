@@ -12,7 +12,7 @@ from langchain.prompts import PromptTemplate
 from langchain_core.messages import HumanMessage, SystemMessage
 from langgraph.graph import StateGraph, END
 from typing import TypedDict, List, Dict, Any
-from tools.scraper import ecommerce_tool
+from tools.ecommerce_tools import crawler_tool  # 假設這是你的電商爬蟲工具模組
 import json
 
 class AgentState(TypedDict):
@@ -29,7 +29,7 @@ class CustomerServiceAgent:
             google_api_key=os.environ["GEMINI_API_KEY"],
             temperature=0.7  # 提高溫度以增強對話自然度
         )
-        self.tool = ecommerce_tool
+        self.tool = crawler_tool
         self.tools = {"EcommerceScraper": self.tool}
         self.scraped_data = []  # 持久化爬取的資料
         self.chat_history = []  # 持久化對話歷史
@@ -160,9 +160,11 @@ class CustomerServiceAgent:
             try:
                 reasoning = f"調用工具 {tool_name}，查詢：'{query}'"
                 state["reasoning_steps"].append(reasoning)
-                result = self.tools[tool_name].func(query)
+                result = self.tools[tool_name].run(query)
+                scraped_data = result
+                with open("scraped_data.json", "w", encoding="utf-8") as f:
+                    json.dump(result, f, ensure_ascii=False, indent=4)
                 result_data = json.loads(result)
-                scraped_data = result_data.get("results", [])
                 state["reasoning_steps"].append(f"工具 {tool_name} 返回 {len(scraped_data)} 筆商品：{json.dumps(scraped_data, ensure_ascii=False)}")
             except Exception as e:
                 state["reasoning_steps"].append(f"工具 {tool_name} 錯誤：{str(e)}")
